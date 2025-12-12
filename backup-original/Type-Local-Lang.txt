@@ -25,7 +25,7 @@ After Generation of Locals Completed, Reboot Once.
 Run Command: 
 reboot
 
-Got to settings
+Got to settings > Keyboard > Input Sources > + Add Input Source
 find Language <yourLanguageCode>itrans(m17n)
 Example: Kannada (kn-itrans (m17n))
 I found it is (itrans) most convenient to type Local languages with this type of keyboard layout, you can experiment around and find yours.
