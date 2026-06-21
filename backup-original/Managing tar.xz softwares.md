@@ -1,7 +1,3 @@
-Here’s a rewritten version of your guide, generalized for compatibility across most Linux distributions (Debian/Ubuntu, Fedora, Arch, openSUSE, etc.). I’ve replaced distro‑specific commands with more universal ones and noted alternatives where package managers differ.
-
----
-
 # How to Install Software from tar.xz Archives on Linux
 
 This guide explains how to install software distributed as `.tar.xz` tarballs, using Firefox 152.0 as an example. The steps apply to most Linux distributions.
