@@ -1,0 +1,17 @@
+- Video And Audio Play: VLC Player
+- Watching YT Videos: Brave*
+- Browser: Edge*, Firefox
+- Cross Platform Remote Desktop: Rustdesk - https://github.com/rustdesk/rustdesk/releases/tag/1.3.6
+- Cross Platform File Sharing: LocalSend - https://localsend.org/download
+- Coding: VS Code & Sublime Text*
+- Video Streaming & Video/Audio Capture: OBS Studio - https://github.com/obsproject/obs-studio/releases/tag/31.0.1
+- Documents Creation and Editing: LibreOffice & ONLYOFFICE
+- OnlineMusic - https://github.com/anandnet/Harmony-Music/releases/tag/v1.10.4
+
+Locally run & chat with an LLM: Ollama | https://ollama.com/download
+to run LLM:
+ollama run llama3.2
+
+
+* => 3rd party software
+i) make sure to check 'Latest' version tag in github assets repository links.
