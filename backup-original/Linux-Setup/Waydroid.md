@@ -19,7 +19,7 @@ System OTA: `https://ota.waydro.id/system`
 
 Vendor OTA: `https://ota.waydro.id/vendor`
 
-<strong style="color:#24d68f"> (i) Recommended to connect to a VPN before starting download </strong>
+> <strong style="color:#24d68f">Recommended to connect to a VPN before starting download</strong>
 
 
 ![Waydroid Start](screenshots/waydroid-start.png)
