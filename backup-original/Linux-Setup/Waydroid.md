@@ -3,6 +3,8 @@
 ### 2. [Troubleshootung](#troubleshooting)
 ### 3. [Uninstallation](#uninstallation)
 ### 4. [Uninstall Verification](#uninstall-verification)
+### 5. [Refresh](#refresh)
+
 
 ---
 
