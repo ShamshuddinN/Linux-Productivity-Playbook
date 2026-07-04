@@ -18,7 +18,9 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [5. Create a VM](#5-create-a-vm)
 - [Software](#software)
   - [Brave Browser](#brave-browser)
+  - [Brave Origin](#brave-origin)
   - [Firefox Browser](#firefox-browser)
+  - [Microsoft Edge](#microsoft-edge-browser)
   - [LocalSend File Sharing](#localsend-file-sharing)
 - [Setting up AppImage Applications](#setting-up-appimage-applications)
   - [Step 1: Install Required Libraries](#step-1-install-required-libraries)
@@ -151,17 +153,58 @@ Always choose **BIOS** while creating a new VM in virt-manager.
 ### Brave Browser
 
 ```bash
-sudo dnf install dnf-plugins-core
-sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-sudo dnf install brave-browser
+curl -fsS https://dl.brave.com/install.sh | sh
 ```
-
+To uninstall
+```bash
+sudo dnf remove brave-browser
+```
+---
+### Brave Origin
+```bash
+curl -fsS https://dl.brave.com/install.sh | FLAVOR=origin sh
+```
+To uninstall
+```bash
+sudo dnf remove brave-origin
+```
+---
 ### Firefox Browser
 
 ```bash
 sudo dnf install firefox
 ```
+To uninstall
+```bash
+sudo dnf remove firefox
+```
+---
+### Microsoft Edge Browser
+#### Install Microsoft Edge from Microsoft's official RPM repository.
+1. Add the Microsoft Edge repository:
 
+```bash
+sudo dnf config-manager addrepo --from-repofile=https://packages.microsoft.com/yumrepos/edge/config.repo
+```
+
+2. Refresh package metadata:
+
+```bash
+sudo dnf upgrade --refresh 
+```
+
+3. Install the stable version:
+
+```bash
+sudo dnf install microsoft-edge-stable
+```
+This method configures your system to receive Edge updates through DNF.
+
+To uninstall,
+```bash
+sudo dnf remove microsoft-edge-stable
+```
+---
 ### LocalSend File Sharing
 
 #### Step 1:
@@ -231,7 +274,6 @@ nautilus -q
 Open your file manager again. You can now select any group of files, right-click, and choose **Share with LocalSend** to seamlessly dispatch them.
 
 ---
-
 ## Setting up AppImage Applications
 
 AppImages are portable Linux applications that run without installation. On Fedora 44, some additional steps are needed.
