@@ -44,7 +44,7 @@ GNOME Extensions enhance the default desktop experience. Below is how to install
 
 ### Install Extension Manager Manually
 
-The Extension Manager is available as a Flatpak on Flathub.
+> The Extension Manager is available as a Flatpak on Flathub.
 
 ```bash
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -198,7 +198,7 @@ sudo dnf upgrade --refresh
 ```bash
 sudo dnf install microsoft-edge-stable
 ```
-This method configures your system to receive Edge updates through DNF.
+> This method configures your system to receive Edge updates through DNF.
 
 To uninstall,
 ```bash
