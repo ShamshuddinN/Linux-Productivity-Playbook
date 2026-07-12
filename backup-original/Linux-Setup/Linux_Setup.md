@@ -22,6 +22,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [Firefox Browser](#firefox-browser)
   - [Microsoft Edge](#microsoft-edge-browser)
   - [LocalSend File Sharing](#localsend-file-sharing)
+  - [NormCap OCR Text Extractor](#normcap-ocr-text-extracctor)
 - [Setting up AppImage Applications](#setting-up-appimage-applications)
   - [Step 1: Install Required Libraries](#step-1-install-required-libraries)
   - [Step 2: Organize AppImages](#step-2-organize-appimages)
@@ -274,6 +275,53 @@ nautilus -q
 Open your file manager again. You can now select any group of files, right-click, and choose **Share with LocalSend** to seamlessly dispatch them.
 
 ---
+## NormCap OCR Text Extracctor
+
+### Method 1: Install via flatpack
+
+#### Add the Flathub repository (if you haven't already)
+
+```bash
+# Add the Flathub repository
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# Install NormCap
+flatpak install flathub com.github.dynobo.normcap
+```
+
+### Method 2: Install via appimage
+
+> Download AppImage File: <a href="https://dynobo.github.io/normcap/"> <strong> NormCap </strong> --> </a> `https://dynobo.github.io/normcap/`
+
+- Move AppImage File to Applications folder
+- Make AppImage File executable | Example Command: `chmod +x NormCap060.AppImage`
+- Write a Bash Script
+
+### Set up
+
+`touch normcap.sh`
+
+`nano normcap.sh`
+
+### Example bash script:
+
+```bash
+#!/usr/bin/env bash
+
+eval "$(systemctl --user show-environment 2>/dev/null | grep -E '^(WAYLAND_DISPLAY|DISPLAY|XDG_CURRENT_DESKTOP|XDG_SESSION_TYPE>
+
+/home/shams/Applications/NormCap060.AppImage
+```
+
+- Write out file: `Ctrl + o`
+- Close the file: `Ctrl + x`
+- Make normcap.sh file executable | Example Command: `chmod +x normcap.sh`
+- Set up a shortcut: `Settings > Keyboard > View and Customize Shortcuts > Custom Shortcuts`
+- Command: `/home/shams/Applications/normcap.sh`
+![normCap Shortcut](screenshots/normcap-shortcut.png)
+
+---
+
 ## Setting up AppImage Applications
 
 AppImages are portable Linux applications that run without installation. On Fedora 44, some additional steps are needed.
