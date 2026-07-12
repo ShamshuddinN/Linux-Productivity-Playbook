@@ -318,6 +318,7 @@ eval "$(systemctl --user show-environment 2>/dev/null | grep -E '^(WAYLAND_DISPL
 - Make normcap.sh file executable | Example Command: `chmod +x normcap.sh`
 - Set up a shortcut: `Settings > Keyboard > View and Customize Shortcuts > Custom Shortcuts`
 - Command: `/home/shams/Applications/normcap.sh`
+
 ![normCap Shortcut](screenshots/normcap-shortcut.png)
 
 ---
