@@ -16,6 +16,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [3. Add User to libvirt Group](#3-add-user-to-libvirt-group)
   - [4. Verify Installation](#4-verify-installation)
   - [5. Create a VM](#5-create-a-vm)
+  - [Network Access Issue](#network-access-issue-for-windows-10-os)
 - [Software](#software)
   - [Brave Browser](#brave-browser)
   - [Brave Origin](#brave-origin)
@@ -147,6 +148,31 @@ Always choose **BIOS** while creating a new VM in virt-manager.
 
 ![VM Creation - BIOS Selection](screenshots/image10.png)
 
+---
+
+## Network access issue for Windows 10 OS
+Modern Fedora versions use nftables by default, but the virtual network manager (libvirt) often requires an explicit directive to map its virtual NAT interfaces.
+
+   1. Open a terminal on your Fedora host.
+   2. Edit the network configuration file:
+
+   ```bash
+   sudo nano /etc/libvirt/network.conf
+   ```
+
+  3. Locate the line #firewall_backend = "iptables" (or look for firewall_backend).
+  4. Change or add it to strictly use iptables:
+
+  ```bash
+  firewall_backend = "iptables"
+  ```
+
+  5. Save the file (Ctrl+O, then Enter) and exit (Ctrl+X).
+  6. Restart the virtualization daemon to apply changes:
+
+  ```bash
+  sudo systemctl restart libvirtd
+  ```
 ---
 
 ## Software
