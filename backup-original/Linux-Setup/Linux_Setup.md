@@ -175,6 +175,16 @@ Modern Fedora versions use nftables by default, but the virtual network manager 
   ```
 ---
 
+> You can use virtualization via Boxes application
+
+![Boxes App](screenshots/Boxes_Application.png)
+
+> You can adjust resolution of VM to adjust viewing screen size
+
+![Boxes Resolution Adjust](screenshots/Adjust%20Resolution%20Boxes.png)
+
+---
+
 ## Software
 
 ### Brave Browser
