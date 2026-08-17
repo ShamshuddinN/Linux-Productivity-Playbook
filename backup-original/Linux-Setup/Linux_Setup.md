@@ -17,6 +17,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [4. Verify Installation](#4-verify-installation)
   - [5. Create a VM](#5-create-a-vm)
   - [Network Access Issue](#network-access-issue-for-windows-10-os)
+  - [Boxes](#boxes)
 - [Software](#software)
   - [Brave Browser](#brave-browser)
   - [Brave Origin](#brave-origin)
@@ -174,6 +175,8 @@ Modern Fedora versions use nftables by default, but the virtual network manager 
   sudo systemctl restart libvirtd
   ```
 ---
+
+## Boxes
 
 > You can use virtualization via Boxes application
 
