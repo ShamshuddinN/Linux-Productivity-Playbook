@@ -18,6 +18,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [5. Create a VM](#5-create-a-vm)
   - [Network Access Issue](#network-access-issue-for-windows-10-os)
   - [Boxes](#boxes)
+  - [Docker](#docker)
 - [Software](#software)
   - [Brave Browser](#brave-browser)
   - [Brave Origin](#brave-origin)
@@ -190,6 +191,14 @@ Modern Fedora versions use nftables by default, but the virtual network manager 
 
 # Docker
 
+> installation is not covered here.
+
+Refer: `https://docs.docker.com/engine/install/fedora/`
+
+
+![Docker Installation](screenshots/docker_installation_fedora.png)
+
+
 ## Running Docker without sudo:
 
 > Run the commands one-by-one
@@ -299,7 +308,7 @@ docker start -container name-
 
 6. Removing the container
 
-> <strong style="color:red" > This will permanantly remove the container and it's all files </strong> 
+> <strong style="color:red" > This will permanantly remove the container and all it's files </strong> 
 
 ```bash
 docker compose down -v
