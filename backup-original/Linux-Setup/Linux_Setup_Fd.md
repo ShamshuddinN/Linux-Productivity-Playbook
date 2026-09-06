@@ -188,6 +188,138 @@ Modern Fedora versions use nftables by default, but the virtual network manager 
 
 ---
 
+# Docker
+
+## Running Docker without sudo:
+
+> Run the commands one-by-one
+
+```bash
+ sudo groupadd docker
+# Ignore if you get docker already exists message.
+```
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+```bash
+sudo systemctl restart docker
+```
+
+> <strong> Reboot the system once </strong>
+
+### Test without sudo:
+
+```bash
+docker run hello-world
+```
+
+## Managing containers
+
+1. Creating the container
+
+Before runnning compose command, you should have a docker-compose.yml file in the path (current path)
+
+compose file examples:
+
+- For setting up ms-sql server container:
+
+```yml
+services:
+  mssql:
+    build: .
+    container_name: sql_server_fts
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=StrongPass@6473
+    ports:
+      - "1433:1433"
+    restart: no
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:
+```
+
+- For setting up Stirling PDF application image:
+
+```yml
+services:
+  stirling-pdf:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
+    restart: no
+    ports:
+      - "8080:8080"
+    volumes:
+      - stirling-tessdata:/usr/share/tessdata
+      - stirling-config:/configs
+      - stirling-logs:/logs
+
+volumes:
+  stirling-tessdata:
+  stirling-config:
+  stirling-logs:
+```
+
+Compose command:
+
+```bash
+docker compose up -d
+```
+
+2. Verify if the container is running
+
+> This is also the command to list all currently running containers
+
+
+```bash
+docker ps
+```
+
+3. List all available containers
+
+```bash
+docker ps -a
+```
+
+4. Stopping the container
+
+```bash
+docker stop -container name-
+```
+
+5. Startig the container
+
+```bash
+docker start -container name-
+```
+
+6. Removing the container
+
+> <strong style="color:red" > This will permanantly remove the container and it's all files </strong> 
+
+```bash
+docker compose down -v
+```
+
+> Below command will remove the container but the data of container will still persist
+
+```bash
+docker compose down
+```
+
+### Notes
+
+Preventing the docker container from starting automatically on reboot
+
+```bash
+docker update --restart=no [container name]
+```
+
+
 ## Software
 
 ### Brave Browser

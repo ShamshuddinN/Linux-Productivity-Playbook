@@ -42,3 +42,15 @@ If scrolling becomes inverted again, swap only the affected device's
 `natural_scroll` value, save the file, and test it.
 
 ---
+
+# Installing Stirling PDF Application:
+
+Search AUR (The Arch User Repository)
+
+and search for package `stirling-pdf-desktop` and install it.
+
+For manual install, run command:
+```bash
+paru -S stirling-pdf-desktop
+# or: yay -S stirling-pdf-desktop
+```
