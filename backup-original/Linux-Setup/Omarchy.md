@@ -54,3 +54,33 @@ For manual install, run command:
 paru -S stirling-pdf-desktop
 # or: yay -S stirling-pdf-desktop
 ```
+
+---
+
+# 12-hour clock in Omarchy
+
+The desktop clock is configured in `~/.config/omarchy/shell.json`, in the
+`omarchy.clock` entry under `bar.layout.center`.
+
+Use this format for a 12-hour clock with AM/PM:
+
+```json
+"format": "dddd h:mm AP"
+```
+
+`h` is the 12-hour value; `AP` adds uppercase `AM` or `PM`. For a shorter
+clock without the weekday, use:
+
+```json
+"format": "h:mm AP"
+```
+
+The Omarchy shell normally hot-reloads this file after saving. If it does not,
+run:
+
+```bash
+omarchy restart shell
+```
+
+You can also right-click the clock to cycle its built-in display formats; that
+choice is saved back to the same configuration file.
