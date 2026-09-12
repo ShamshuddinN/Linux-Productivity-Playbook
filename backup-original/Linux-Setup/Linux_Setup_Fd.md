@@ -10,6 +10,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [Screenshot Shortcuts](#screenshot-shortcuts)
   - [Open Terminal (Ctrl+Alt+T)](#open-terminal-ctrlaltt)
   - [Minimize All Windows and Go to Desktop](#minimize-all-windows-and-go-to-desktop)
+  - [Screenshot Annotation (Satty)]()
 - [Virtualization](#virtualization)
   - [1. Verify Virtualization Support](#1-verify-virtualization-support)
   - [2. Install QEMU/KVM](#2-install-qemukvm)
@@ -26,6 +27,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [Microsoft Edge](#microsoft-edge-browser)
   - [LocalSend File Sharing](#localsend-file-sharing)
   - [NormCap OCR Text Extractor](#normcap-ocr-text-extracctor)
+  - [VS Code](#vs-code)
 - [Setting up AppImage Applications](#setting-up-appimage-applications)
   - [Step 1: Install Required Libraries](#step-1-install-required-libraries)
   - [Step 2: Organize AppImages](#step-2-organize-appimages)
@@ -101,6 +103,163 @@ To set up or view the shortcut in Settings:
 2. Go to **Keyboard > View and Customize Shortcuts**.
 3. Select **Navigation**.
 4. Find **"Hide all normal windows"** (or **"Show Desktop"**) and set your preferred keys (e.g., `<Super>d`).
+
+---
+
+### Install satty
+
+Download from [Flathub](https://flathub.org/apps/org.satty.Satty) or via CLI:
+
+```bash
+flatpak install flathub org.satty.Satty
+```
+
+### Verify satty runs
+
+```bash
+flatpak run org.satty.Satty --help
+```
+
+> Shortcut-invokable binary:
+
+```bash
+flatpak run org.satty.Satty --filename <image> --fullscreen
+```
+
+satty reads an existing image file (or `-` from stdin) — it does **not** take
+screenshots itself. It always needs an external capture step.
+
+Verify Dependencies are installed:
+
+```bash
+rpm -q xdg-desktop-portal xdg-desktop-portal-gnome    # expect both installed
+ps -eo comm | grep portal                              # expect xdg-desktop-portal-gnome
+```
+
+### Create the script
+
+Save as `~/.local/bin/satty-screenshot` and make it executable (satty-screenshot is the file without any extension and in that file the python code below resides) :
+
+```bash
+mkdir -p ~/.local/bin
+```
+
+**Requirement:** `python3-gi` (present in Fedora's default GNOME install;
+check with `python3 -c "import gi"`).
+
+Python code to add in satty-screenshot file:
+
+```python
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+from urllib.parse import unquote
+import gi
+
+gi.require_version('Gio', '2.0')
+from gi.repository import Gio, GLib
+
+
+def main():
+    bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+    try:
+        args = GLib.Variant.parse(
+            GLib.VariantType.new("(sa{sv})"),
+            '("", {"interactive": <true>, "modal": <true>})',
+            None, None)
+        reply = bus.call_sync(
+            "org.freedesktop.portal.Desktop",
+            "/org/freedesktop/portal/desktop",
+            "org.freedesktop.portal.Screenshot",
+            "Screenshot",
+            args,
+            None, Gio.DBusCallFlags.NONE, 10000, None)
+    except GLib.Error as e:
+        print("portal error:", e.message, file=sys.stderr)
+        return 1
+    req = reply.unpack()[0] if isinstance(reply.unpack(), (tuple, list)) else reply.unpack()
+
+    loop = GLib.MainLoop()
+    outcome = {}
+
+    def on_response(_c, _s, path, _i, _sig, params, _d):
+        if path != req:
+            return
+        code = params[0]
+        results = params[1] if len(params) > 1 else {}
+        outcome['code'] = code.unpack() if hasattr(code, 'unpack') else code
+        outcome['results'] = {}
+        if isinstance(results, dict):
+            outcome['results'] = results
+        else:
+            for k in results:
+                outcome['results'][k] = results[k].unpack() if hasattr(results[k], 'unpack') else results[k]
+        loop.quit()
+
+    bus.signal_subscribe(
+        "org.freedesktop.portal.Desktop",
+        "org.freedesktop.portal.Request",
+        "Response", req, None,
+        Gio.DBusSignalFlags.NONE, on_response, None)
+
+    GLib.timeout_add_seconds(300, lambda: (outcome.setdefault('timeout', True), loop.quit()))
+    loop.run()
+
+    uri = None
+    if outcome.get('code') == 0:
+        uri = outcome['results'].get('uri')
+        if uri is None:
+            return 1
+        fpath = unquote(uri.replace("file://", ""))
+        print("captured:", fpath, file=sys.stderr)
+        if not os.path.exists(fpath):
+            print("capture file missing:", fpath, file=sys.stderr)
+            return 1
+        try:
+            rc = subprocess.run(
+                ["flatpak", "run", "org.satty.Satty",
+                 "--filename", fpath, "--fullscreen"],
+                cwd="/").returncode
+            print("satty rc:", rc, file=sys.stderr)
+        except OSError as e:
+            print("failed to launch satty:", e, file=sys.stderr)
+            return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+```
+
+Make the file executable:
+
+```bash
+chmod +x ~/.local/bin/satty-screenshot
+```
+
+### Test it manually
+
+```bash
+/home/shams/.local/bin/satty-screenshot
+```
+
+The selection UI appears → draw a box → satty opens with the capture.
+Expected log lines (all good):
+
+```
+captured: /home/shams/Pictures/Screenshots/Screenshot From 2026-09-12 22-15-15.png
+Fullscreen Some(CurrentScreen) | Resize None | Floatinghack false
+```
+
+### Register the Print Screen shortcut
+
+1. **Settings → Keyboard → View and Customize Shortcuts → Custom Shortcuts**
+2. Click **+** (Add Shortcut)
+   - Name: `ScreenshotAnnotate` (anything)
+   - Command: `/home/shams/.local/bin/satty-screenshot`
+3. Click **Set Shortcut** and press **Print Screen**
+4. Toggle it on.
 
 ---
 
@@ -469,6 +628,12 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 flatpak install flathub com.github.dynobo.normcap
 ```
 
+#### To set a launch shortcut:
+```bash
+#Command:
+flatpak run com.github.dynobo.normcap
+```
+
 ### Method 2: Install via appimage
 
 > Download AppImage File: <a href="https://dynobo.github.io/normcap/"> <strong> NormCap </strong> --> </a> `https://dynobo.github.io/normcap/`
@@ -502,6 +667,16 @@ eval "$(systemctl --user show-environment 2>/dev/null | grep -E '^(WAYLAND_DISPL
 ![normCap Shortcut](screenshots/normcap-shortcut.png)
 
 ---
+
+# VS-Code
+
+Refer: `https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions`
+
+## Adjust the text size in VS Code using the Ctrl + Mouse Wheel shortcut:
+
+1. Open the settings window by pressing Ctrl + , (or go to File > Preferences > Settings).
+2. In the top search bar, type mouseWheelZoom.
+3. Look for Editor: Mouse Wheel Zoom and check the box next to it.
 
 ## Setting up AppImage Applications
 
