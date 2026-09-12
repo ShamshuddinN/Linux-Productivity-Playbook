@@ -10,7 +10,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [Screenshot Shortcuts](#screenshot-shortcuts)
   - [Open Terminal (Ctrl+Alt+T)](#open-terminal-ctrlaltt)
   - [Minimize All Windows and Go to Desktop](#minimize-all-windows-and-go-to-desktop)
-  - [Screenshot Annotation (Satty)]()
+  - [Screenshot Annotation (Satty)](#screenshot-annotations-with-satty)
 - [Virtualization](#virtualization)
   - [1. Verify Virtualization Support](#1-verify-virtualization-support)
   - [2. Install QEMU/KVM](#2-install-qemukvm)
@@ -106,7 +106,7 @@ To set up or view the shortcut in Settings:
 
 ---
 
-### Install satty
+# Screenshot Annotations with Satty
 
 Download from [Flathub](https://flathub.org/apps/org.satty.Satty) or via CLI:
 
