@@ -261,6 +261,10 @@ Fullscreen Some(CurrentScreen) | Resize None | Floatinghack false
 3. Click **Set Shortcut** and press **Print Screen**
 4. Toggle it on.
 
+### An example photo annotated using Satty
+
+![Screenshot Satty Example](screenshots/SattyExample)
+
 ---
 
 ## Virtualization
