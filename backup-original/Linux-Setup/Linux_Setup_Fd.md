@@ -41,7 +41,7 @@ A collection of setup notes, shortcuts, and troubleshooting tips for Fedora Linu
   - [Option 1: Disable Bluetooth Service at Boot](#option-1-disable-bluetooth-service-at-boot)
   - [Option 2: Keep Bluetooth Installed but Off by Default](#option-2-keep-bluetooth-installed-but-off-by-default)
   - [Option 3: Mask the Service (Strongest Disable)](#option-3-mask-the-service-strongest-disable)
-
+- [Limiting Battery Charge Percentage](#limiting-battery-charge-percentage)
 ---
 
 ## Extensions
@@ -848,6 +848,51 @@ After restarting, run:
 
 ```bash
 systemctl status bluetooth.service
+```
+
+---
+
+# Limiting Battery Charge Percentage
+
+## Check if configuration ahead will work in the device:
+
+```bash
+ls /sys/class/power_supply/
+
+# Out: AC0  BAT0
+
+ls /sys/class/power_supply/BAT0/
+
+# Out: Would show a property 'charge_control_end_threshold'
+```
+
+### Create the charge limiting service:
+
+```bash
+sudo nano /etc/systemd/system/battery-charge-end-threshold.service
+```
+
+### Paste below code in the file:
+
+> Below code limits charging device to 80% 
+
+```bash
+[Unit]
+Description=Set Battery Charge End Threshold
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold'
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Enable and start the service:
+
+```bash
+sudo systemctl enable battery-charge-end-threshold.service
+sudo systemctl start battery-charge-end-threshold.service
 ```
 
 ---
