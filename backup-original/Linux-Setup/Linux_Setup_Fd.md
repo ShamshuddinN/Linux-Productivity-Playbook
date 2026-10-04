@@ -108,11 +108,21 @@ To set up or view the shortcut in Settings:
 
 # Screenshot Annotations with Satty
 
-Download from [Flathub](https://flathub.org/apps/org.satty.Satty) or via CLI:
+Download from [GitHub](https://github.com/Satty-org/Satty/releases)
+
+![Satty GitHub](screenshots/Satty-GitHub-Assets)
+
+### Install it:
 
 ```bash
-flatpak install flathub org.satty.Satty
+flatpak install satty-<version>.flatpak
 ```
+
+Example Command:
+```bash
+flatpak install satty-v0.22.0.flatpak
+```
+
 
 ### Verify satty runs
 
@@ -145,12 +155,18 @@ mkdir -p ~/.local/bin
 ```
 
 **Requirement:** `python3-gi` (present in Fedora's default GNOME install;
-check with `python3 -c "import gi"`).
+check with `/usr/bin/python3 -c "import gi"`).
+
+> [!WARNING]
+> Pin the shebang to `#!/usr/bin/python3`, **not** `#!/usr/bin/env python3`.
+> If Homebrew's `python3` comes first on `PATH`, the script dies with
+> `ModuleNotFoundError: No module named 'gi'`. See
+> [`satty_incident_inspection.md`](../investigations-log/satty_incident_inspection.md).
 
 Python code to add in satty-screenshot file:
 
 ```python
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import os
 import sys
 import subprocess
@@ -258,8 +274,14 @@ Fullscreen Some(CurrentScreen) | Resize None | Floatinghack false
 2. Click **+** (Add Shortcut)
    - Name: `ScreenshotAnnotate` (anything)
    - Command: `/home/shams/.local/bin/satty-screenshot`
-3. Click **Set Shortcut** and press **Print Screen**
-4. Toggle it on.
+3. Press Combination Screen, this will:
+- invoke the screenshot tool first
+- After you finish taking screenshot > auto redirects image to satty
+
+### Example Shortcut Set:
+
+![Satty Screenshot Shortcut](screenshots/Satty-Screenshot-Shortcut.png)
+
 
 ### An example photo annotated using Satty
 

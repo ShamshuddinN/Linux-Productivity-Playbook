@@ -128,10 +128,18 @@ mkdir -p ~/.local/bin
 ```
 
 **Requirement:** `python3-gi` (present in Fedora's default GNOME install;
-check with `python3 -c "import gi"`).
+check with `/usr/bin/python3 -c "import gi"`).
+
+> [!WARNING]
+> Pin the shebang to `#!/usr/bin/python3`, **not** `#!/usr/bin/env python3`.
+> If Homebrew's `python3` comes first on `PATH`, the script dies with
+> `ModuleNotFoundError: No module named 'gi'`, because the distro's PyGObject
+> lives in `/usr/lib64/python3.14/site-packages`, which Homebrew's interpreter
+> does not search. Full write-up:
+> [`Linux-Setup/satty_incident_inspection.md`](../Linux-Setup/satty_incident_inspection.md)
 
 ```python
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import os
 import sys
 import subprocess
@@ -286,6 +294,7 @@ Use the absolute path in the command — the shortcut's shell may not have
 | `Screenshot is not allowed` (D-Bus) | Old `org.gnome.Shell.Screenshot` API denied | Use the XDG Desktop Portal instead |
 | `Error: couldn't load image ... No such file or directory` | URI passed raw with `%20` escapes | `urllib.parse.unquote()` the path (handled in the script) |
 | `PORTAL CALL FAILED` | `python3-gi` missing / session bus issue | `sudo dnf install python3-gi`; run from the graphical session |
+| `ModuleNotFoundError: No module named 'gi'` | Shebang uses `env python3`, which picked Homebrew's python instead of the system one | Use `#!/usr/bin/python3` (see the warning in Section 5) |
 | selection UI never appears | Script not run from the desktop session | Test with `/home/shams/.local/bin/satty-screenshot` in a terminal |
 
 ---
