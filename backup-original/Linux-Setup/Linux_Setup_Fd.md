@@ -399,20 +399,22 @@ compose file examples:
 
 ```yml
 services:
-  mssql:
-    build: .
-    container_name: sql_server_fts
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=StrongPass@6473
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: fedora-mssql
     ports:
       - "1433:1433"
-    restart: no
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "StrongPass@6473"
+      MSSQL_PID: "Developer" # Options: Developer, Express, Standard, Enterprise
     volumes:
-      - sqlvolume:/var/opt/mssql
+      - mssql_data:/var/opt/mssql
+    restart: no
 
 volumes:
-  sqlvolume:
+  mssql_data:
+    driver: local
 ```
 
 - For setting up Stirling PDF application image:
