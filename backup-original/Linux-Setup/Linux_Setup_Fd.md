@@ -390,8 +390,9 @@ Refer: `https://docs.docker.com/engine/install/fedora/`
 
 ```bash
  sudo groupadd docker
-# Ignore if you get docker already exists message.
 ```
+
+> Ignore if you get docker already exists message.
 
 ```bash
 sudo usermod -aG docker $USER
@@ -658,7 +659,6 @@ flatpak install flathub com.github.dynobo.normcap
 
 #### To set a launch shortcut:
 ```bash
-#Command:
 flatpak run com.github.dynobo.normcap
 ```
 
